@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+    <script src="https://butlerjs.iwltech.repl.co/soundjs-NEXT.combined.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="butler.js"></script>
+
+    <title>Butler</title>
+    
+    
+  </head>
+  <body>
+
+    <button onclick="init(1)">
+      Init Butler
+    </button>
+    <h2>Butler Demo</h2>
+        <p><button type="button" onclick="stt()">Speech to Text</button> &nbsp;</p>
+      <div id="action" style="display: block !important;">
+        
+      </div>
+    <input id="result" value="" type="text">
+    <select id="language">
+      <option value="uk">
+        United Kingdom - Brian
+      </option>
+      <option value="us">
+        United States - Matthew
+      </option>
+      <option value="au">
+        Australia - Russell
+      </option>
+    </select>
+        <span class="fa-solid fa-circle-xmark fa-shake" style="color: #ff0000;">h</span>
+    <span class="fa fa-circle-xmark"></span>
+        <i class="fa-solid fa-ellipsis fa-fade fa-2xs">h</i>
+  </body>
+</html>
