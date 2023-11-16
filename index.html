@@ -5,8 +5,9 @@
   src="https://code.jquery.com/jquery-3.7.0.js"
   integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
   crossorigin="anonymous"></script>
-    <script src="https://butlerjs.iwltech.repl.co/soundjs-NEXT.combined.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <script src="https://butlerjs.iwltech.repl.co/soundjs-NEXT.combined.js">
+    </script>
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -17,11 +18,12 @@
     
     
   </head>
-  <body>
+  <body onload="runTest(0)">
 
     <button onclick="init(1)">
       Init Butler
     </button>
+    <div id="demo">
     <h2>Butler Demo</h2>
         <p><button type="button" onclick="stt()">Speech to Text</button> &nbsp;</p>
       <div id="action" style="display: block !important;">
@@ -39,8 +41,12 @@
         Australia - Russell
       </option>
     </select>
-        <span class="fa-solid fa-circle-xmark fa-shake" style="color: #ff0000;">h</span>
-    <span class="fa fa-circle-xmark"></span>
-        <i class="fa-solid fa-ellipsis fa-fade fa-2xs">h</i>
+    </div>
+    <p id="status-javascript"><span id="status-javascript-icon" class="fa-solid fa-circle-xmark fa-shake fa-2xl" style="color: #ff0000;"></span>&nbsp;&nbsp;<span id="status-javascript-message">Javascript disabled. Please enable then reload.</span>&nbsp;&nbsp;</p>
+    <p id="status-cookies"><span id="status-cookies-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-cookies-message">Checking cookies...</span>&nbsp;&nbsp;</p>
+    <p id="status-microphone"><span id="status-microphone-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-microphone-message">Checking microphone access...</span>&nbsp;&nbsp;</p>
+    <p id="status-notifications"><span id="status-notifications-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-notifications-message">Checking if notifications are enabled...</span>&nbsp;&nbsp;</p>
+    <div id="statuses">
+    </div>
   </body>
 </html>
