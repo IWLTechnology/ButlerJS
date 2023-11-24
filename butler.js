@@ -246,15 +246,22 @@ const butlerjs = {
             action.innerHTML = "<small>stopped listening, hope you are done...</small>";
             recognition.stop();
         };
+      recognition.addEventListener("error", (event) => {
+         action.innerHTML = "<small>Error (" + event + "), trying again...</small>";
+        butlerjs.speak('say-again-q');
+        butlerjs.stt()
+      });
         recognition.onresult = function(event) {
             var res = [event.results[0][0].transcript, event.results[0][0].confidence];
           butlerjs.processSpeech(res[0]);
         };
-      recognition.onerror = function(event) {
-        console.log('Stt error');
+
+      recognition.onnomatch = function(event) {
+        action.innerHTML = "<small>Error (" + event + "), trying again...</small>";
         butlerjs.speak('say-again-q');
         butlerjs.stt()
-      }
+    };
+    
          recognition.start();
   },
   processSpeech(input) {
