@@ -348,26 +348,33 @@ const butlerjs = {
       console.log('Attempting to speak ' + lang + '-' + toSpeak);
     }
   },
-  queue(modifier, value){
-    switch(modifier){
+  queue(m, v){
+    switch(m){
       case 'next':
         var y = document.getElementById('soundQueue').innerHTML.split(',');
         y.shift();
+        console.log(y)
         document.getElementById('soundQueue').innerHTML = y;
         break;
       case 'clear':
         document.getElementById('soundQueue').innerHTML = '';
         break;
       case 'add':
-        document.getElementById('soundQueue').innerHTML = document.getElementById('soundQueue').innerHTML.split(',').push(value);
+        console.log(v);
+        var x = document.getElementById('soundQueue').innerHTML.split(',')
+        x.push(v);
+        console.log(x);
+        document.getElementById('soundQueue').innerHTML = x;
         break;
       case 'play': 
-        if(document.getElementById('soundQueue').innerHTML == '0'){
+        if(document.getElementById('playingSound').innerHTML == '0'){
+          if(document.getElementById('soundQueue').innerHTML.split(',')[0] != ''){
 butlerjs.speak(document.getElementById('soundQueue').innerHTML.split(',')[0]);
         }else{
 
         }
         break;
+    }
     }
   },
   playFin(){
