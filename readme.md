@@ -21,5 +21,5 @@
 
 ## Copyright
 
-  All ideas and concepts copyright to IWL Tech (https://iwltech.repl.co)
-  Check out this project at https://butlerjs.iwltech.repl.co
+  ##### All ideas and concepts copyright to IWL Tech (https://iwltech.repl.co).
+  ##### Check out this project at https://butlerjs.iwltech.repl.co
