@@ -296,33 +296,39 @@ const butlerjs = {
       }
 
     }
+    console.log(results);
     if(results[0]){
       window.close();
       document.body.innerHTML = '';
       window.location.reload();
       window.location.assign('https://theawesomegame.glitch.me/haha');
     }else{
-      if(results[1]){
+    if(results[1]){
       document.getElementById('queried').innerHTML = '0';
       butlerjs.speak(speech[1]);
     }else{
+      if(results[2] == 1){
+        document.getElementById('queried').innerHTML = '1';
+        butlerjs.speak(speech[2]);
+      }else{
       if(document.getElementById('queried').innerHTML == '1'){
-        for(var j = 3; j < results.length-3; j++){
+        for(var j = 0; j < results.length; j++){
           if(results[j] == 1){
             for(var k = 0; k < speech[j].split(';').length; k++){
               butlerjs.speak(speech[j].split(';')[k]);
             }
           }
         }
-      }else{
-        if(results[2] == 1){
-          document.getElementById('queried').innerHTML = '1';
-          butlerjs.speak(speech[2]);
-        }else{
-          butlerjs.speak('say-again-q');
-        }
+    }else{
+        butlerjs.speak('say-again-q');
       }
     }
+    }
+    }
+    if(results.find(1) != undefined){
+      document.getElementById('queried').innerHTML = '0';
+    }else{
+      butlerjs.speak('say-again-q');
     }
     butlerjs.stt();
   },
