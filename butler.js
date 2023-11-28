@@ -335,8 +335,16 @@ const butlerjs = {
   },
   speak(toSpeak){
     var lang = document.getElementById('language').value;
-    createjs.Sound.play(lang + '-' + toSpeak);
+    var instance = createjs.Sound.play(lang + '-' + toSpeak);
+    instance.on('complete', butlerjs.playFin);
     console.log('Attempting to speak ' + lang + '-' + toSpeak);
+  },
+  playFin(){
+    console.log('PLAY FINISHED');
+    butlerjs
+  },
+  playInit(){
+    console.log('PLAY INIT');
   },
   updateStatus(section, status, message){
     var icon = document.getElementById('status-' + section + '-icon');
