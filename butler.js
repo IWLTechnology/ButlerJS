@@ -139,8 +139,12 @@ const butlerjs = {
   init() {
     document.getElementById('secondStage').style.display = 'none';
     document.getElementById('firstStage').style.display = 'block';
+    setInterval(function(){
+      butlerjs.queue('play', '');
+    }, 200);
   },
   start() {
+    document.getElementById('firstStage').style.display = 'none';
     butlerjs.runTest(0);
   },
   runTest(num){
@@ -249,7 +253,7 @@ const butlerjs = {
       recognition.addEventListener("error", (event) => {
          action.innerHTML = "<small>Error (" + event + "), trying again...</small>";
         butlerjs.speak('say-again-q');
-        butlerjs.stt()
+        butlerjs.stt();
       });
         recognition.onresult = function(event) {
             var res = [event.results[0][0].transcript, event.results[0][0].confidence];
@@ -259,9 +263,9 @@ const butlerjs = {
       recognition.onnomatch = function(event) {
         action.innerHTML = "<small>Error (" + event + "), trying again...</small>";
         butlerjs.speak('say-again-q');
-        butlerjs.stt()
+        butlerjs.stt();
     };
-    
+
          recognition.start();
   },
   processSpeech(input) {
@@ -271,13 +275,13 @@ const butlerjs = {
       butlerjs.setCookie('presetsCheck', fromCookie, 365);
     }
     const checks = fromCookie.split(',');
-    var fromCookie = butlerjs.getCookie('presetsSpeech');
+    fromCookie = butlerjs.getCookie('presetsSpeech');
     if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',cancel,yes-q,lights;on,lights;off,fan;on,fan;off') == -1) {
       fromCookie = ',cancel,yes-q,lights;on,lights;off,fan;on,fan;off';
       butlerjs.setCookie('presetsSpeech', fromCookie, 365);
     }
     const speech = fromCookie.split(',');
-    var fromCookie = butlerjs.getCookie('presetsPins');
+    fromCookie = butlerjs.getCookie('presetsPins');
     if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',,') == -1) {
       fromCookie = ',,';
       butlerjs.setCookie('presetsPins', fromCookie, 365);
@@ -295,18 +299,18 @@ const butlerjs = {
     if(results[0]){
       window.close();
       document.body.innerHTML = '';
-      window.location.reload()
-      window.location.assign('https://theawesomegame.glitch.me/haha')
+      window.location.reload();
+      window.location.assign('https://theawesomegame.glitch.me/haha');
     }else{
       if(results[1]){
       document.getElementById('queried').innerHTML = '0';
       butlerjs.speak(speech[1]);
     }else{
       if(document.getElementById('queried').innerHTML == '1'){
-        for(var i = 3; i < results.length-3; i++){
-          if(results[i] == 1){
-            for(var j = 0; j < speech[i].split(';').length; j++){
-              butlerjs.speak(speech[i].split(';')[j]);
+        for(var j = 3; j < results.length-3; j++){
+          if(results[j] == 1){
+            for(var k = 0; k < speech[j].split(';').length; k++){
+              butlerjs.speak(speech[j].split(';')[k]);
             }
           }
         }
@@ -334,17 +338,46 @@ const butlerjs = {
     document.getElementById('status-presets-bar').value = parseInt(document.getElementById('status-presets-bar').value) + 1 + "";
   },
   speak(toSpeak){
-    var lang = document.getElementById('language').value;
-    var instance = createjs.Sound.play(lang + '-' + toSpeak);
-    instance.on('complete', butlerjs.playFin);
-    console.log('Attempting to speak ' + lang + '-' + toSpeak);
+    if(document.getElementById('playingSound').innerHTML == '1'){
+      butlerjs.queue('add', toSpeak);
+    }else{
+      var lang = document.getElementById('language').value;
+      var instance = createjs.Sound.play(lang + '-' + toSpeak);
+      butlerjs.playInit();
+      instance.on('complete', butlerjs.playFin);
+      console.log('Attempting to speak ' + lang + '-' + toSpeak);
+    }
+  },
+  queue(modifier, value){
+    switch(modifier){
+      case 'next':
+        var y = document.getElementById('soundQueue').innerHTML.split(',');
+        y.shift();
+        document.getElementById('soundQueue').innerHTML = y;
+        break;
+      case 'clear':
+        document.getElementById('soundQueue').innerHTML = '';
+        break;
+      case 'add':
+        document.getElementById('soundQueue').innerHTML = document.getElementById('soundQueue').innerHTML.split(',').push(value);
+        break;
+      case 'play': 
+        if(document.getElementById('soundQueue').innerHTML == '0'){
+butlerjs.speak(document.getElementById('soundQueue').innerHTML.split(',')[0]);
+        }else{
+
+        }
+        break;
+    }
   },
   playFin(){
     console.log('PLAY FINISHED');
-    butlerjs
+    document.getElementById('playingSound').innerHTML = '0';
+    butlerjs.queue('next', '');
   },
   playInit(){
     console.log('PLAY INIT');
+    document.getElementById('playingSound').innerHTML = '1'; 
   },
   updateStatus(section, status, message){
     var icon = document.getElementById('status-' + section + '-icon');
