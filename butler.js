@@ -320,16 +320,27 @@ const butlerjs = {
           }
         }
     }else{
-        butlerjs.speak('say-again-q');
+        
       }
     }
     }
     }
-    if(results.find(1) != undefined){
+    results.shift();
+    results.shift();
+    results.shift();
+    if(results.find(butlerjs.checkForTrue) != undefined){
       document.getElementById('queried').innerHTML = '0';
     }else{
       butlerjs.speak('say-again-q');
     }
+    butlerjs.stt();
+  },
+  checkForTrue(obj){
+    return obj == 1;
+  },
+  devel(){
+    preloadSound();
+    butlerjs.start();
     butlerjs.stt();
   },
   playSound(ev) {
