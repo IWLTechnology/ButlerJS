@@ -137,6 +137,49 @@ function preloadSound(){
 
 const butlerjs = {
   init() {
+    document.body.innerHTML = `<div id="firstStage" style="display: none;">
+    <button onclick="butlerjs.start()" class="w3-button w3-btn w3-ripple w3-blue w3-round-xlarge">
+      Init Butler
+    </button>
+  </div>
+    <div id="thirdStage" style="display: none;">
+    <h2>Butler Demo</h2>
+        <p><button type="button" onclick="butlerjs.stt()">Speech to Text</button> &nbsp;</p>
+      <div id="action" style="display: block !important;">
+        
+      </div>
+      <input id="ip" type="text" placeholder="Enter the ButlerHome IP" value="">
+    <input id="result" value="" type="text">
+    <select id="language">
+      <option value="uk">
+        United Kingdom - Brian
+      </option>
+      <option value="us">
+        United States - Matthew
+      </option>
+      <option value="au">
+        Australia - Russell
+      </option>
+    </select>
+      <p>
+        Butler Queried: <span id="queried">0</span>
+      </p>
+      <p>
+        Playing Song: <span id="playingSound">0</span>
+      </p>
+      <p>
+        Sound Queue:
+        <span id="soundQueue"></span>
+      </p>
+    </div>
+    <div id="secondStage">
+    <div id="statuses">
+      <p id="status-javascript"><span id="status-javascript-icon" class="fa-solid fa-circle-xmark fa-shake fa-2xl" style="color: #ff0000;"></span>&nbsp;&nbsp;<span id="status-javascript-message">Javascript disabled. Please enable then reload.</span>&nbsp;&nbsp;</p>
+      <p id="status-cookies"><span id="status-cookies-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-cookies-message">Checking cookies...</span>&nbsp;&nbsp;</p>
+      <p id="status-microphone"><span id="status-microphone-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-microphone-message">Checking microphone access...</span>&nbsp;&nbsp;</p>
+      <!--<p id="status-notifications"><span id="status-notifications-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-notifications-message">Checking if notifications are enabled...</span>&nbsp;&nbsp;</p>-->
+    </div>
+    </div>`;
     document.getElementById('secondStage').style.display = 'none';
     document.getElementById('firstStage').style.display = 'block';
     setInterval(function(){
