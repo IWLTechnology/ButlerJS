@@ -137,7 +137,7 @@ function preloadSound(){
 
 const butlerjs = {
   init() {
-    document.body.innerHTML = `<div id="firstStage" style="display: none;">
+    /*document.body.innerHTML = `<div id="firstStage" style="display: none;">
     <button onclick="butlerjs.start()" class="w3-button w3-btn w3-ripple w3-blue w3-round-xlarge">
       Init Butler
     </button>
@@ -179,7 +179,7 @@ const butlerjs = {
       <p id="status-microphone"><span id="status-microphone-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-microphone-message">Checking microphone access...</span>&nbsp;&nbsp;</p>
       <!--<p id="status-notifications"><span id="status-notifications-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-notifications-message">Checking if notifications are enabled...</span>&nbsp;&nbsp;</p>-->
     </div>
-    </div>`;
+    </div>`;*/
     document.getElementById('secondStage').style.display = 'none';
     document.getElementById('firstStage').style.display = 'block';
     setInterval(function(){
@@ -214,6 +214,17 @@ const butlerjs = {
            butlerjs.runTest(3);
          } else if (result.state == 'denied') {
            butlerjs.updateStatus('microphone', 'bad', 'Please enable the microphone permanently then reload.');
+         }else{
+           navigator.mediaDevices
+             .getUserMedia({ video: false, audio: true })
+             .then((stream) => {
+               window.localStream = stream; // A
+               window.localAudio.srcObject = stream; // B
+               window.localAudio.autoplay = true; // C
+             })
+             .catch((err) => {
+               butlerjs.updateStatus('microphone', 'bad', 'Please enable the microphone permanently then reload.');
+             });
          }
         });
         break;
