@@ -221,6 +221,7 @@ const butlerjs = {
                window.localStream = stream; // A
                window.localAudio.srcObject = stream; // B
                window.localAudio.autoplay = true; // C
+               window.location.reload()
              })
              .catch((err) => {
                butlerjs.updateStatus('microphone', 'bad', 'Please enable the microphone permanently then reload.');
