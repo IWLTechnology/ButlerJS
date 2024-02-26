@@ -215,16 +215,26 @@ const butlerjs = {
          } else if (result.state == 'denied') {
            butlerjs.updateStatus('microphone', 'bad', 'Please enable the microphone permanently then reload.');
          }else{
+           var wasanerror = 0;
            navigator.mediaDevices
              .getUserMedia({ video: false, audio: true })
              .then((stream) => {
                window.localStream = stream; // A
-               window.localAudio.srcObject = stream; // B
-               window.localAudio.autoplay = true; // C
-               window.location.reload()
+               if(wasanerror == 0){
+                  butlerjs.updateStatus('microphone', 'good', 'Microphone enabled.');
+                   butlerjs.runTest(3);
+                }else{
+                  butlerjs.updateStatus('microphone', 'bad', 'Please enable the microphone permanently then reload.');
+                }
              })
              .catch((err) => {
-               butlerjs.updateStatus('microphone', 'bad', 'Please enable the microphone permanently then reload.');
+               wasanerror = 1;
+               if(wasanerror == 0){
+                 butlerjs.updateStatus('microphone', 'good', 'Microphone enabled.');
+                  butlerjs.runTest(3);
+               }else{
+                 butlerjs.updateStatus('microphone', 'bad', 'Please enable the microphone permanently then reload.');
+               }
              });
          }
         });
