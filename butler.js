@@ -347,8 +347,8 @@ const butlerjs = {
     }
     const speech = fromCookie.split(',');
     fromCookie = butlerjs.getCookie('presetsPins');
-    if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',,') == -1) {
-      fromCookie = ',,';
+    if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',,,5-1,5-0,6-1,6-0') == -1) {
+      fromCookie = ',,,5-1,5-0,6-1,6-0';
       butlerjs.setCookie('presetsPins', fromCookie, 365);
     }
     const pins = fromCookie.split(',');
@@ -382,6 +382,9 @@ const butlerjs = {
             for(var k = 0; k < speech[j].split(';').length; k++){
               butlerjs.speak(speech[j].split(';')[k]);
             }
+            for(var k = 0; k < pins[j].split(';').length; k++){
+              butlerjs.pinOut(pins[j].split(';')[k]);
+            }
           }
         }
     }else{
@@ -414,6 +417,17 @@ const butlerjs = {
     if(ev.id == 'uk-may-i'){
       butlerjs.beginIt(2);
     }
+  },
+  pinOut(out) {
+    var pinsplit = out.split('-');
+    if(pinsplit[1] == '1'){
+      butlerjs.sendPin('http://' + document.getElementById('ipadd').value + "/" + pinsplit[0]+"on");
+    }else{
+      butlerjs.sendPin('http://' + document.getElementById('ipadd').value + "/" + pinsplit[0]+"off");
+    }
+  },
+  sendPin(url){
+    document.getElementById('framebox').innerHTML += `<iframe src="${url}"></iframe>`
   },
   presetsLoaded(ev) {
     console.log("Preloaded preset", ev.name);

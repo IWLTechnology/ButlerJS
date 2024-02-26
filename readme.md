@@ -2,7 +2,7 @@
 
  A javascript library and server from Replit to use with the Butler cube (smart home edition). The wiki will be coming soon (https://github.com/IWLTechnology/ButlerJS/wiki).
 
-## Current Version: 1.5.6
+## Current Version: 1.5.8
 
   Simple recognition and speech response, with limited interface.
 
@@ -10,7 +10,6 @@
 
   ##### Fix recognition bugs
   ##### Implement pin control and UI for that
-  ##### Implement IP Address box
   ##### Add preset UI and implement
   ##### Register and add Youtube song player UI & implement
   ##### Add JavaScript execution option to presets
