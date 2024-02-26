@@ -484,14 +484,11 @@ butlerjs.speak(document.getElementById('soundQueue').innerHTML.split(',')[0]);
   },
   updateStatus(section, status, message){
     var icon = document.getElementById('status-' + section + '-icon');
-    icon.classList = "fa-solid fa-ellipsis fa-fade fa-2xl";
-    icon.style.color = "#4D5656";
+    icon.classList = "fa-solid fa-ellipsis fa-fade fa-2xl waiting";
     if(status  == 'good'){
-      icon.classList = "fa-solid fa-check fa-beat fa-2xl";
-      icon.style.color = "#00ff00";
+      icon.classList = "fa-solid fa-check fa-beat fa-2xl good";
     }else if(status == 'bad'){
-      icon.classList = "fa-solid fa-circle-xmark fa-shake fa-2xl";
-      icon.style.color = "#ff0000";
+      icon.classList = "fa-solid fa-circle-xmark fa-shake fa-2xl bad";
     }
     document.getElementById('status-' + section + '-message').innerHTML = message;
   if(status == 'good'){

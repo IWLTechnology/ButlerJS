@@ -1,0 +1,18 @@
+#thirdStage{
+	display: none;
+}
+#action{
+	display: block !important;
+}
+#result{
+	display: none;
+}
+.bad{
+	color: #ff0000;
+}
+.waiting{
+	color: #4D5656;
+}
+.good{
+	color: #00ff00;
+}
