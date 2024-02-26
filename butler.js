@@ -135,51 +135,13 @@ function preloadSound(){
         }
 }
 
-const butlerjs = {
+var butlerjs = {
+  fromCookie:"",
+  checks:"",
+  speech:"",
+  pins:"",
   init() {
-    /*document.body.innerHTML = `<div id="firstStage" style="display: none;">
-    <button onclick="butlerjs.start()" class="w3-button w3-btn w3-ripple w3-blue w3-round-xlarge">
-      Init Butler
-    </button>
-  </div>
-    <div id="thirdStage" style="display: none;">
-    <h2>Butler Demo</h2>
-        <p><button type="button" onclick="butlerjs.stt()">Speech to Text</button> &nbsp;</p>
-      <div id="action" style="display: block !important;">
-        
-      </div>
-      <input id="ip" type="text" placeholder="Enter the ButlerHome IP" value="">
-    <input id="result" value="" type="text">
-    <select id="language">
-      <option value="uk">
-        United Kingdom - Brian
-      </option>
-      <option value="us">
-        United States - Matthew
-      </option>
-      <option value="au">
-        Australia - Russell
-      </option>
-    </select>
-      <p>
-        Butler Queried: <span id="queried">0</span>
-      </p>
-      <p>
-        Playing Song: <span id="playingSound">0</span>
-      </p>
-      <p>
-        Sound Queue:
-        <span id="soundQueue"></span>
-      </p>
-    </div>
-    <div id="secondStage">
-    <div id="statuses">
-      <p id="status-javascript"><span id="status-javascript-icon" class="fa-solid fa-circle-xmark fa-shake fa-2xl" style="color: #ff0000;"></span>&nbsp;&nbsp;<span id="status-javascript-message">Javascript disabled. Please enable then reload.</span>&nbsp;&nbsp;</p>
-      <p id="status-cookies"><span id="status-cookies-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-cookies-message">Checking cookies...</span>&nbsp;&nbsp;</p>
-      <p id="status-microphone"><span id="status-microphone-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-microphone-message">Checking microphone access...</span>&nbsp;&nbsp;</p>
-      <!--<p id="status-notifications"><span id="status-notifications-icon" class="fa-solid fa-ellipsis fa-fade fa-2xl" style="color: #4D5656;"></span>&nbsp;&nbsp;<span id="status-notifications-message">Checking if notifications are enabled...</span>&nbsp;&nbsp;</p>-->
-    </div>
-    </div>`;*/
+    /*document.body.innerHTML = ``;*/
     document.getElementById('secondStage').style.display = 'none';
     document.getElementById('firstStage').style.display = 'block';
     setInterval(function(){
@@ -271,10 +233,9 @@ const butlerjs = {
   initStatuses(){
     var box = document.getElementById("statuses");
     var sChecks = ['sound', 'presets', 'speech-to-text'];
-    var sRanges = [120];
+    var sRanges = [120, 3];
     var hasProgress  = [true, true, false];
     var prog = '';
-    sRanges.push(parseInt(butlerjs.getCookie('nOfPresets')));
     for(var i = 0; i < sChecks.length; i++){
       var temp_section = sChecks[i];
       var mx = sRanges[i];
@@ -295,7 +256,31 @@ const butlerjs = {
         break;
       case 2:
         butlerjs.updateStatus('sound', 'good', 'Sound preload complete.');
-        butlerjs.updateStatus('presets', 'good', 'All presets ready');
+        document.getElementById('status-presets-message').innerHTML = "Loading commands...";
+        fromCookie = butlerjs.getCookie('presetsCheck');
+        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search('shut up,cancel,hey Butler,lights on,lights off,fan on,fan off') == -1) {
+          fromCookie = 'shut up,cancel,hey Butler,lights on,lights off,fan on,fan off';
+          butlerjs.setCookie('presetsCheck', fromCookie, 365);
+        }
+        checks = fromCookie.split(',');
+        document.getElementById('status-presets-bar').value = 1;
+        document.getElementById('status-presets-message').innerHTML = "Loaded commands. Loading speech results...";
+        fromCookie = butlerjs.getCookie('presetsSpeech');
+        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',cancel,yes-q,lights;on,lights;off,fan;on,fan;off') == -1) {
+          fromCookie = ',cancel,yes-q,lights;on,lights;off,fan;on,fan;off';
+          butlerjs.setCookie('presetsSpeech', fromCookie, 365);
+        }
+        speech = fromCookie.split(',');
+        document.getElementById('status-presets-bar').value = 2;
+        document.getElementById('status-presets-message').innerHTML = "Loaded speech result. Loading pin outputs...";
+        fromCookie = butlerjs.getCookie('presetsPins');
+        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',,,5-1,5-0,6-1,6-0') == -1) {
+          fromCookie = ',,,5-1,5-0,6-1,6-0';
+          butlerjs.setCookie('presetsPins', fromCookie, 365);
+        }
+        pins = fromCookie.split(',');
+        document.getElementById('status-presets-bar').value = 3;
+        butlerjs.updateStatus('presets', 'good', 'All presets loaded');
         butlerjs.beginIt(3);
         break;
       case 3:
@@ -334,24 +319,6 @@ const butlerjs = {
          recognition.start();
   },
   processSpeech(input) {
-    var fromCookie = butlerjs.getCookie('presetsCheck');
-    if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search('shut up,cancel,hey Butler,lights on,lights off,fan on,fan off') == -1) {
-      fromCookie = 'shut up,cancel,hey Butler,lights on,lights off,fan on,fan off';
-      butlerjs.setCookie('presetsCheck', fromCookie, 365);
-    }
-    const checks = fromCookie.split(',');
-    fromCookie = butlerjs.getCookie('presetsSpeech');
-    if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',cancel,yes-q,lights;on,lights;off,fan;on,fan;off') == -1) {
-      fromCookie = ',cancel,yes-q,lights;on,lights;off,fan;on,fan;off';
-      butlerjs.setCookie('presetsSpeech', fromCookie, 365);
-    }
-    const speech = fromCookie.split(',');
-    fromCookie = butlerjs.getCookie('presetsPins');
-    if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',,,5-1,5-0,6-1,6-0') == -1) {
-      fromCookie = ',,,5-1,5-0,6-1,6-0';
-      butlerjs.setCookie('presetsPins', fromCookie, 365);
-    }
-    const pins = fromCookie.split(',');
     const results = [];
     for(var i = 0; i < checks.length; i++){
       if(input.search(checks[i]) != -1){
@@ -427,7 +394,7 @@ const butlerjs = {
     }
   },
   sendPin(url){
-    document.getElementById('framebox').innerHTML += `<iframe src="${url}"></iframe>`
+    document.getElementById('framebox').innerHTML += `<iframe style="border-color: red; border-width: 20px;" src="${url}"></iframe>`
   },
   presetsLoaded(ev) {
     console.log("Preloaded preset", ev.name);
