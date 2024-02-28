@@ -386,15 +386,8 @@ var butlerjs = {
     }
   },
   pinOut(out) {
-    var pinsplit = out.split('-');
-    if(pinsplit[1] == '1'){
-      butlerjs.sendPin('http://' + document.getElementById('ipadd').value + "/" + pinsplit[0]+"on");
-    }else{
-      butlerjs.sendPin('http://' + document.getElementById('ipadd').value + "/" + pinsplit[0]+"off");
-    }
-  },
-  sendPin(url){
-    document.getElementById('framebox').innerHTML += `<iframe style="border-color: red; border-width: 20px;" src="${url}"></iframe>`
+    var url = 'http://' + document.getElementById('ipadd').value + "/" + out;
+    document.getElementById('framebox').innerHTML += `<iframe style="border-color: red; border-width: 20px;" src="${url}"></iframe>`;
   },
   presetsLoaded(ev) {
     console.log("Preloaded preset", ev.name);
