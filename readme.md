@@ -2,6 +2,8 @@
 
  A javascript library and server from Replit to use with the Butler cube (smart home edition). The wiki will be coming soon (https://github.com/IWLTechnology/ButlerJS/wiki).
 
+ This is part of the Butler Project (https://thebutlerproject.glitch.me).
+
 ## Current Version: 0.6.1
 
   Simple recognition and speech response, with limited interface.
