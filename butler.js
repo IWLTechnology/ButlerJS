@@ -126,7 +126,14 @@ function preloadSound(){
             {id: 'uk-inactive', src: 'voices/uk/inactive.mp3'},
             {id: 'uk-enabled', src: 'voices/uk/enabled.mp3'},
             {id: 'uk-disabled', src: 'voices/uk/disabled.mp3'},
-            {id: 'uk-may-i', src: 'voices/uk/may-i.mp3'} ],
+                {id: 'uk-rr', src: 'rr.mp3'},
+                 {id: 'us-rr', src: 'rr.mp3'},
+                 {id: 'au-rr', src: 'rr.mp3'},
+                {id: 'uk-indiana', src: 'indiana.mp3'},
+                 {id: 'us-indiana', src: 'indiana.mp3'},
+                 {id: 'au-indiana', src: 'indiana.mp3'},
+                 {id: 'uk-may-i', src: 'voices/uk/may-i.mp3'}
+               ],
               "/");
           }
           catch(err){
@@ -140,6 +147,7 @@ var butlerjs = {
   checks:"",
   speech:"",
   pins:"",
+  javaexec:"",
   init() {
     /*document.body.innerHTML = ``;*/
     document.getElementById('secondStage').style.display = 'none';
@@ -233,7 +241,7 @@ var butlerjs = {
   initStatuses(){
     var box = document.getElementById("statuses");
     var sChecks = ['sound', 'presets', 'speech-to-text'];
-    var sRanges = [120, 3];
+    var sRanges = [120, 4];
     var hasProgress  = [true, true, false];
     var prog = '';
     for(var i = 0; i < sChecks.length; i++){
@@ -258,28 +266,36 @@ var butlerjs = {
         butlerjs.updateStatus('sound', 'good', 'Sound preload complete.');
         document.getElementById('status-presets-message').innerHTML = "Loading commands...";
         fromCookie = butlerjs.getCookie('presetsCheck');
-        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search('shut up,cancel,hey Butler,lights on,lights off,fan on,fan off') == -1) {
-          fromCookie = 'shut up,cancel,hey Butler,lights on,lights off,fan on,fan off';
+        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search('shut up,,cancel,never,hey Butler,lights on,lights off,fan on,fan off,March,stop all sound') == -1) {
+          fromCookie = 'shut up,cancel,never,hey Butler,lights on,lights off,fan on,fan off,March,stop all sound';
           butlerjs.setCookie('presetsCheck', fromCookie, 365);
         }
         checks = fromCookie.split(',');
         document.getElementById('status-presets-bar').value = 1;
         document.getElementById('status-presets-message').innerHTML = "Loaded commands. Loading speech results...";
         fromCookie = butlerjs.getCookie('presetsSpeech');
-        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',cancel,yes-q,lights;on,lights;off,fan;on,fan;off') == -1) {
-          fromCookie = ',cancel,yes-q,lights;on,lights;off,fan;on,fan;off';
+        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',cancel,rr,yes-q,lights;on,lights;off,fan;on,fan;off,indiana,') == -1) {
+          fromCookie = ',cancel,rr,yes-q,lights;on,lights;off,fan;on,fan;off,indiana,';
           butlerjs.setCookie('presetsSpeech', fromCookie, 365);
         }
         speech = fromCookie.split(',');
         document.getElementById('status-presets-bar').value = 2;
         document.getElementById('status-presets-message').innerHTML = "Loaded speech result. Loading pin outputs...";
         fromCookie = butlerjs.getCookie('presetsPins');
-        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',,,5-1,5-0,6-1,6-0') == -1) {
-          fromCookie = ',,,5-1,5-0,6-1,6-0';
+        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(',,,,5-1,5-0,6-1,6-0,,') == -1) {
+          fromCookie = ',,,,5-1,5-0,6-1,6-0,,';
           butlerjs.setCookie('presetsPins', fromCookie, 365);
         }
         pins = fromCookie.split(',');
         document.getElementById('status-presets-bar').value = 3;
+        document.getElementById('status-presets-message').innerHTML = "Loaded pin outputs. Loading javascript execution...";
+        fromCookie = butlerjs.getCookie('presetsJSExec');
+        if(fromCookie == '' || fromCookie == '0' || fromCookie == 0 || fromCookie == undefined || fromCookie.search(",,,,alert('lightsOn'),,,,,createjs.Sound.stop();butlerjs.queue('clear','')") == -1) {
+          fromCookie = ",,,,alert('lightsOn'),,,,,createjs.Sound.stop();butlerjs.queue('clear','')";
+          butlerjs.setCookie('presetsJSExec', fromCookie, 365);
+        }
+        javaexec = fromCookie.split(',');
+        document.getElementById('status-presets-bar').value = 4;
         butlerjs.updateStatus('presets', 'good', 'All presets loaded');
         butlerjs.beginIt(3);
         break;
@@ -333,24 +349,30 @@ var butlerjs = {
       window.close();
       document.body.innerHTML = '';
       window.location.reload();
-      window.location.assign('https://theawesomegame.glitch.me/haha');
+      window.location.assign('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
     }else{
     if(results[1]){
       document.getElementById('queried').innerHTML = '0';
       butlerjs.speak(speech[1]);
+    }else if(results[2]){
+      butlerjs.speak(speech[2]);
     }else{
-      if(results[2] == 1){
+      if(results[3] == 1){
         document.getElementById('queried').innerHTML = '1';
-        butlerjs.speak(speech[2]);
+        butlerjs.speak(speech[3]);
       }else{
       if(document.getElementById('queried').innerHTML == '1'){
         for(var j = 0; j < results.length; j++){
           if(results[j] == 1){
+            butlerjs.speak('as-you-wish-master-e');
             for(var k = 0; k < speech[j].split(';').length; k++){
               butlerjs.speak(speech[j].split(';')[k]);
             }
             for(var k = 0; k < pins[j].split(';').length; k++){
               butlerjs.pinOut(pins[j].split(';')[k]);
+            }
+            for(var k = 0; k < javaexec[j].split(';').length; k++){
+              butlerjs.evaluate(javaexec[j].split(';')[k]);
             }
           }
         }
@@ -363,12 +385,25 @@ var butlerjs = {
     results.shift();
     results.shift();
     results.shift();
+    results.shift();
     if(results.find(butlerjs.checkForTrue) != undefined){
       document.getElementById('queried').innerHTML = '0';
     }else{
       butlerjs.speak('say-again-q');
     }
     butlerjs.stt();
+  },
+  evaluate(toEval){
+    var evalAllowed = butlerjs.getCookie('evalAllowed');
+    if(evalAllowed == '' || evalAllowed == null){
+      butlerjs.setCookie('evalAllowed', '1', 365);
+      evalAllowed = '1';
+    }
+    if(evalAllowed == '1'){
+      eval(toEval);
+    }else{
+      alert('Eval disabled');
+    }
   },
   checkForTrue(obj){
     return obj == 1;
