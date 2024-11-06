@@ -134,7 +134,7 @@ function preloadSound(){
                  {id: 'au-indiana', src: 'indiana.mp3'},
                  {id: 'uk-may-i', src: 'voices/uk/may-i.mp3'}
                ],
-              "/");
+              "./");
           }
           catch(err){
             butlerjs.updateStatus('sound', 'bad', err);
